@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G3N-R-L MiLLz's MELODIOUS MALEFICARUM v1.2</title> <!-- Version Bump -->
+    <!-- Link CSS Variables -->
+    <link rel="stylesheet" href="css/neumorphic-vars.css">
+    <!-- Link Main Styles -->
+    <link rel="stylesheet" href="css/neumorphic-style.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Uncial+Antiqua&family=Chakra+Petch:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Canvas for main visualization (Positioned behind controls) -->
+        <canvas id="hypercube-canvas"></canvas>
+
+        <div class="main-frame">
+            <!-- VISUALIZER AREA: Shows canvas behind -->
+            <div class="visualizer-area">
+                <!-- CRT/Scanline Overlay -->
+                <div class="crt-overlay"></div>
+            </div>
+             <!-- Preset Selector Area (Moved slightly for better flow) -->
+             <div class="preset-selector-container" id="preset-area"></div>
+
+            <!-- CONTROLS AREA: Grid layout for modules -->
+            <div class="controls-area" id="controls-grid">
+
+                <!-- Input Module Container (Will hold XY or Keyboard) -->
+                <div class="control-module input-module-container" id="input-container" data-active-input="keyboard">
+                    <div class="module-swap-controls">
+                         <button id="input-swap-button" class="swap-button" aria-label="Swap Input Method">MODE: KYBD</button>
+                    </div>
+                     <!-- XY PAD MODULE (Initially hidden by CSS) -->
+                    <div class="control-module xy-pad-module sub-module" id="xy-pad-module" tabindex="-1"> <!-- Make focusable when visible -->
+                        <div class="module-title">SONIC NEXUS</div>
+                        <div class="xy-pad" id="xy-pad">
+                            <div class="xy-cursor" id="xy-cursor"></div>
+                            <!-- Idle state visual (frequency bars) -->
+                            <div class="xy-idle-visual">
+                                <div class="freq-bar"></div>
+                                <div class="freq-bar"></div>
+                                <div class="freq-bar"></div>
+                                <div class="freq-bar"></div>
+                                <div class="freq-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- KEYBOARD MODULE (Initially visible) -->
+                    <div class="control-module keyboard-module sub-module" id="keyboard-module" tabindex="0"> <!-- Make focusable -->
+                         <div class="module-title">NOTE INPUT // OCTAVE C4-C5</div>
+                         <div class="keyboard" id="keyboard">
+                             <!-- Keys: Added .key-overlay div -->
+                             <div class="keyboard-key white" data-note="C4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key black" data-note="C#4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key white" data-note="D4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key black" data-note="D#4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key white" data-note="E4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key white" data-note="F4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key black" data-note="F#4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key white" data-note="G4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key black" data-note="G#4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key white" data-note="A4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key black" data-note="A#4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key white" data-note="B4"><div class="key-overlay"></div></div>
+                             <div class="keyboard-key white" data-note="C5"><div class="key-overlay"></div></div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- PARAMETERS & EFFECTS MODULE -->
+                <div class="control-module params-effects-module" id="params-effects-module" tabindex="0"> <!-- Make focusable -->
+                     <div class="module-title">PARAMETER MATRIX // EFFECTORS</div>
+                     <div class="sliders-grid">
+                          <!-- Filter Frequency Slider -->
+                         <div class="slider-unit">
+                             <label class="slider-label" for="slider-filter">FLT.CUT</label>
+                             <div class="slider-wrapper"> <!-- Wrapper for styling -->
+                                 <input type="range" min="0" max="1000" value="500" step="1" class="styled-slider" id="slider-filter">
+                             </div>
+                             <!-- Optional: Add value display span -->
+                             <!-- <span class="slider-value">50%</span> -->
+                         </div>
+                         <!-- Filter Resonance Slider -->
+                         <div class="slider-unit">
+                              <label class="slider-label" for="slider-resonance">FLT.RES</label>
+                              <div class="slider-wrapper">
+                                  <input type="range" min="0" max="1000" value="100" step="1" class="styled-slider" id="slider-resonance">
+                              </div>
+                         </div>
+                        <!-- Envelope Attack Slider -->
+                         <div class="slider-unit">
+                              <label class="slider-label" for="slider-attack">ENV.ATK</label>
+                              <div class="slider-wrapper">
+                                 <input type="range" min="0" max="1000" value="100" step="1" class="styled-slider" id="slider-attack">
+                              </div>
+                         </div>
+                         <!-- Envelope Release Slider -->
+                         <div class="slider-unit">
+                              <label class="slider-label" for="slider-release">ENV.REL</label>
+                              <div class="slider-wrapper">
+                                 <input type="range" min="0" max="1000" value="300" step="1" class="styled-slider" id="slider-release">
+                              </div>
+                         </div>
+                     </div>
+
+                     <!-- Toggles Section Nested -->
+                     <div class="toggles-section">
+                        <!-- <div class="section-label">EFFECTORS</div> --> <!-- Label now part of module title -->
+                        <div class="toggles-grid">
+                            <!-- Delay Toggle -->
+                            <div class="toggle-unit">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-delay">
+                                    <span class="switch-base">
+                                        <span class="switch-handle"></span>
+                                        <span class="switch-label-on">ON</span>
+                                        <span class="switch-label-off">OFF</span>
+                                    </span>
+                                </label>
+                                <label class="toggle-label" for="toggle-delay">[ DELAY ]</label>
+                            </div>
+                             <!-- Reverb Toggle -->
+                             <div class="toggle-unit">
+                                 <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-reverb">
+                                     <span class="switch-base">
+                                        <span class="switch-handle"></span>
+                                        <span class="switch-label-on">ON</span>
+                                        <span class="switch-label-off">OFF</span>
+                                    </span>
+                                </label>
+                                <label class="toggle-label" for="toggle-reverb">[ REVERB ]</label>
+                            </div>
+                            <!-- Glitch Toggle -->
+                            <div class="toggle-unit">
+                                 <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-glitch">
+                                    <span class="switch-base">
+                                        <span class="switch-handle"></span>
+                                        <span class="switch-label-on">ON</span>
+                                        <span class="switch-label-off">OFF</span>
+                                    </span>
+                                </label>
+                                <label class="toggle-label" for="toggle-glitch">[ GLITCH ]</label>
+                            </div>
+                             <!-- Arpeggiator Toggle -->
+                             <div class="toggle-unit">
+                                 <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-arpeggiator">
+                                    <span class="switch-base">
+                                        <span class="switch-handle"></span>
+                                        <span class="switch-label-on">ON</span>
+                                        <span class="switch-label-off">OFF</span>
+                                    </span>
+                                </label>
+                                <label class="toggle-label" for="toggle-arpeggiator">[ ARP ]</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End .controls-area -->
+        </div> <!-- End .main-frame -->
+    </div> <!-- End .app-container -->
+
+    <!-- Load Core Scripts -->
+    <script type="module" src="core/GeometryManager.js"></script>
+    <script type="module" src="core/ProjectionManager.js"></script>
+    <script type="module" src="core/ShaderManager.js"></script>
+    <script type="module" src="core/HypercubeCore.js"></script>
+    <!-- Load Sound Module -->
+    <script type="module" src="sound/sound-module.js"></script>
+    <!-- Load UI Interaction Logic -->
+    <script type="module" src="js/ui-interactions.js"></script>
+</body>
+</html>

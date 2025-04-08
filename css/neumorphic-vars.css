@@ -1,0 +1,109 @@
+/* css/neumorphic-vars.css */
+:root {
+    /* --- Font Families --- */
+    --font-terminal: 'Courier Prime', monospace;
+    --font-arcane: 'Uncial Antiqua', cursive;
+    --font-ui: 'Chakra Petch', sans-serif; /* Fallback/General UI */
+
+    /* --- Core Color Palette (Vaporwave/Arcane/Terminal Mix) --- */
+    --bg-color-dark: #0a0810; /* Even darker background */
+    --element-base-color-rgb: 45, 40, 65; /* Slightly darker module base for contrast */
+    --text-color-primary: #e8ebf0; /* Slightly brighter text */
+    --text-color-secondary: #aeb2bf; /* Muted grey */
+    --text-color-accent: #ff79c6; /* Pink accent for titles/important text */
+    --text-color-glow: #ffb8ff; /* Lighter pink for text glow */
+
+    /* Accent Colors (Neons) */
+    --accent-color: #8a7fff;           /* Primary Neon Purple/Blue */
+    --accent-color-light: #ab9fff;
+    --accent-color-secondary: #00f0ff; /* Neon Cyan */
+    --accent-color-tertiary: #ff00ff;  /* Neon Magenta */
+
+    /* RGB Versions for RGBA() */
+    --accent-color-rgb: 138, 127, 255;
+    --accent-color-secondary-rgb: 0, 240, 255;
+    --accent-color-tertiary-rgb: 255, 0, 255;
+    --glow-pink-rgb: 255, 121, 198;
+    --glow-cyan-rgb: 0, 240, 255;
+    --glow-magenta-rgb: 255, 0, 255;
+    --glow-accent-rgb: var(--accent-color-rgb); /* Alias for primary accent */
+
+    /* Glow Colors (Derived from accents) */
+    --glow-accent: var(--accent-color);
+    --glow-accent-faint: rgba(var(--accent-color-rgb), 0.5);
+    --glow-accent-bright: var(--accent-color-light);
+    --glow-cyan: var(--accent-color-secondary);
+    --glow-cyan-faint: rgba(var(--glow-cyan-rgb), 0.5);
+    --glow-magenta: var(--accent-color-tertiary);
+    --glow-magenta-faint: rgba(var(--glow-magenta-rgb), 0.5);
+
+    /* Background Gradients */
+    --gradient-1: #181428; /* Darker gradients */
+    --gradient-2: #351840;
+    --gradient-3: #25235a;
+    --gradient-4: #101020;
+
+    /* --- Glassmorphism Opacity Levels --- VASTLY REDUCED --- */
+    --glass-opacity-frame: 0.05;  /* Main frame background - Very subtle */
+    --glass-opacity-module: 0.08; /* Control module background - Very subtle */
+    --element-opacity-control-bg: 0.1; /* Pad, inactive toggle/slider */
+    --element-opacity-control-fg: 0.8; /* Knob base - less relevant with gradient */
+
+    /* --- Shadows (Adapted for Glass/Dark Theme + Glows) --- */
+    /* Reduced reliance on heavy neumorphic shadows, focus on glows and simple depth */
+    --shadow-color-light-rgba: rgba(255, 255, 255, 0.08); /* Very subtle highlight */
+    --shadow-color-dark-rgba: rgba(0, 0, 0, 0.6);      /* Deeper dark shadow */
+    --shadow-distance-outer: 4px; /* Smaller distance */
+    --shadow-blur-outer: 12px;
+    --shadow-distance-inner: 2px; /* Smaller distance */
+    --shadow-blur-inner: 6px;
+
+    /* Standard Depth Shadow (Outer) - Simplified */
+    --shadow-depth: 0px 4px 10px var(--shadow-color-dark-rgba);
+
+    /* Inset Depth Shadow - Subtle */
+    --shadow-depth-inset:
+        inset calc(var(--shadow-distance-inner) * 1) calc(var(--shadow-distance-inner) * 1) var(--shadow-blur-inner) var(--shadow-color-dark-rgba),
+        inset calc(var(--shadow-distance-inner) * -0.5) calc(var(--shadow-distance-inner) * -0.5) var(--shadow-blur-inner) var(--shadow-color-light-rgba);
+
+    /* Deep Inset Shadow (Pressed Look) */
+    --shadow-depth-inset-deep:
+        inset calc(var(--shadow-distance-inner) * 1.5) calc(var(--shadow-distance-inner) * 1.5) calc(var(--shadow-blur-inner) * 1.5) var(--shadow-color-dark-rgba),
+        inset calc(var(--shadow-distance-inner) * -1) calc(var(--shadow-distance-inner) * -1) var(--shadow-blur-inner) var(--shadow-color-light-rgba);
+
+    /* Glow Shadows (Combine with depth shadows) */
+    --shadow-glow-frame: 0 0 20px 3px rgba(var(--glow-cyan-rgb), 0.1); /* Subtle frame glow */
+    --shadow-glow-module-inset: inset 0 0 8px 1px rgba(var(--glow-magenta-rgb), 0.08);
+    --shadow-glow-accent-soft: 0 0 12px 2px rgba(var(--glow-accent-rgb), 0.4);
+    --shadow-glow-accent-strong: 0 0 18px 4px rgba(var(--glow-accent-rgb), 0.6);
+
+    /* Element Highlight/Shadow (For solid elements like knobs/toggles) */
+    --element-highlight: #555077; /* Lighter shade of dark base */
+    --element-shadow: #221e33;   /* Darker shade */
+
+    /* --- Dimensions & Transitions --- */
+    --base-border-radius: 10px; /* Slightly reduced */
+    --control-border-radius: 8px;
+    --frame-border-radius: 12px; /* Specific for main frame */
+
+    --transition-speed-fast: 0.15s;
+    --transition-speed-med: 0.3s;
+    --transition-speed-slow: 0.5s;
+    --transition-timing-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-timing-ease-out: ease-out;
+
+    /* --- Slider Variables --- */
+    --slider-track-height: 4px;
+    --slider-thumb-size: 18px;
+    --slider-thumb-color: var(--accent-color);
+    --slider-track-color: rgba(var(--element-base-color-rgb), 0.5);
+    --slider-track-active-color: var(--accent-color-secondary);
+
+    /* --- Key Overlay Variables (Controlled by JS) --- */
+    --overlay-opacity: 0;
+    --overlay-radius: 0%;
+    --overlay-duration: 0.3s;
+    --key-press-x: 50%;
+    --key-press-y: 50%;
+
+}
